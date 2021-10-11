@@ -39,6 +39,9 @@ namespace MathForGames
             _name = name;
         }
 
+        public Actor(char icon, float x, float y, string name = "Actor", ConsoleColor color = ConsoleColor.White)
+            : this(icon, new Vector2 { X = x, Y = y }, name, color) { }
+
         public virtual void Start()
         {
             _started = true;
@@ -46,7 +49,7 @@ namespace MathForGames
 
         public virtual void Update()
         {
-            _position.X = Position.X + 1;
+            
         }
 
         public virtual void Draw()

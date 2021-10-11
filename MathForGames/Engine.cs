@@ -38,11 +38,13 @@ namespace MathForGames
         private void Start()
         {
             Scene scene = new Scene();
-            Actor actor = new Actor('P', new Vector2 { X = 2, Y = 0 }, "Phil", ConsoleColor.Magenta);
-            Actor actor2 = new Actor('W', new Vector2 { X = 3, Y = 3 }, "Phil", ConsoleColor.Cyan);
+            Actor actor = new Actor('N', 0, 0, "Phil", ConsoleColor.Blue);
+            Actor actor2 = new Actor('W', 3, 3, "Phil2.0", ConsoleColor.Cyan);
+            Player player = new Player('@', 6, 6, 1, "Player", ConsoleColor.Red);
 
             scene.AddActor(actor);
             scene.AddActor(actor2);
+            scene.AddActor(player);
 
             _currentSceneIndex = AddScene(scene);
 
@@ -125,6 +127,23 @@ namespace MathForGames
 
             // Return the last index.
             return _scenes.Length - 1;
+        }
+
+        /// <summary>
+        /// Gets the next key in the input stream.
+        /// </summary>
+        /// <returns> Whether or not a key was pressed. </returns>
+        public static ConsoleKey GetNextKey()
+        {
+            // If there is no key being pressed...
+            if (!Console.KeyAvailable)
+            {
+                // ...return.
+                return 0;
+            }
+
+            // Return the current key being pressed.
+            return Console.ReadKey(true).Key;
         }
 
         /// <summary>
