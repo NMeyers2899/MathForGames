@@ -31,7 +31,7 @@ namespace MathForGames
 
         public virtual void Update()
         {
-            _position.X = Position.X + 1;
+            
         }
 
         public virtual void Draw()
