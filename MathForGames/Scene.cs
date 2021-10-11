@@ -16,7 +16,10 @@ namespace MathForGames
             _actors = new Actor[0];
         }
 
-        public void Start()
+        /// <summary>
+        /// Calls the start for every actor within the scene.
+        /// </summary>
+        public virtual void Start()
         {
             // Loops through the _actors array and gets all actors in it to Start.
             for(int i = 0; i < _actors.Length; i++)
@@ -25,19 +28,61 @@ namespace MathForGames
             }
         }
 
-        public void Update()
+        /// <summary>
+        /// Calls the update for every actor within the scene.
+        /// </summary>
+        public virtual void Update()
         {
+            // Loops through the array to get each character to Update.
+            for(int i = 0; i < _actors.Length; i++)
+            {
+                // If the actor's start function hasn't been called yet...
+                if (!_actors[i].Started)
+                {
+                    // ...the current actor calls its Start function.
+                    _actors[i].Start();
+                }
 
+                _actors[i].Update();
+            }
         }
 
-        public void Draw()
+        /// <summary>
+        /// Calls the draw for every actor within the scene.
+        /// </summary>
+        public virtual void Draw()
         {
+            // Loops through the array to get each character to Draw.
+            for (int i = 0; i < _actors.Length; i++)
+            {
+                // If the actor's start function hasn't been called yet...
+                if (!_actors[i].Started)
+                {
+                    // ...the current actor calls its Start function.
+                    _actors[i].Start();
+                }
 
+                _actors[i].Draw();
+            }
         }
 
-        public void End()
+        /// <summary>
+        /// Calls the end for every actor within the scene.
+        /// </summary>
+        public virtual void End()
         {
+            // Loops through the array to get each character to End.
+            for (int i = 0; i < _actors.Length; i++)
+            {
+                // If the actor's start function hasn't been called yet...
+                if (!_actors[i].Started)
+                {
+                    // ...the current actor calls its Start function.
+                    _actors[i].Start();
+                }
 
+                _actors[i].End();
+            }
         }
 
         /// <summary>

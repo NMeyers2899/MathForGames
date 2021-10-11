@@ -35,6 +35,13 @@ namespace MathForGames
         /// </summary>
         private void Start()
         {
+            Scene scene = new Scene();
+            Actor actor = new Actor('P', new MathLibrary.Vector2 { X = 2, Y = 0 });
+
+            scene.AddActor(actor);
+
+            _currentSceneIndex = AddScene(scene);
+
             _scenes[_currentSceneIndex].Start();
         }
 
