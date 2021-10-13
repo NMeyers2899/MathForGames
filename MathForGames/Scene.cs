@@ -23,9 +23,7 @@ namespace MathForGames
         {
             // Loops through the _actors array and gets all actors in it to Start.
             for(int i = 0; i < _actors.Length; i++)
-            {
                 _actors[i].Start();
-            }
         }
 
         /// <summary>
@@ -38,10 +36,8 @@ namespace MathForGames
             {
                 // If the actor's start function hasn't been called yet...
                 if (!_actors[i].Started)
-                {
                     // ...the current actor calls its Start function.
                     _actors[i].Start();
-                }
 
                 _actors[i].Update();
             }
@@ -57,10 +53,8 @@ namespace MathForGames
             {
                 // If the actor's start function hasn't been called yet...
                 if (!_actors[i].Started)
-                {
                     // ...the current actor calls its Start function.
                     _actors[i].Start();
-                }
 
                 _actors[i].Draw();
             }
@@ -76,10 +70,8 @@ namespace MathForGames
             {
                 // If the actor's start function hasn't been called yet...
                 if (!_actors[i].Started)
-                {
                     // ...the current actor calls its Start function.
                     _actors[i].Start();
-                }
 
                 _actors[i].End();
             }
@@ -96,9 +88,7 @@ namespace MathForGames
 
             // Copies all of the old values from the array and adds them to the new array.
             for (int i = 0; i < _actors.Length; i++)
-            {
                 tempArray[i] = _actors[i];
-            }
 
             // Sets the last index to be a new scene.
             tempArray[_actors.Length] = actor;
@@ -134,18 +124,14 @@ namespace MathForGames
                 }
                 // If the current actor in _actors is equal to actor...
                 else
-                {
                     // ...set actorRemoved to true.
                     actorRemoved = true;
-                }
             }
 
             // If an actor has been removed...
             if (actorRemoved)
-            {
                 // ...set the old array to the new array.
                 _actors = tempArray;
-            }
 
             return actorRemoved;
         }

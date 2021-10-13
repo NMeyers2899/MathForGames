@@ -26,7 +26,7 @@ namespace MathForGames
             {
                 Update();
                 Draw();
-                Thread.Sleep(150);
+                Thread.Sleep(50);
             }
 
             End();
@@ -39,11 +39,9 @@ namespace MathForGames
         {
             Scene scene = new Scene();
             Actor actor = new Actor('N', 0, 0, "Phil", ConsoleColor.Blue);
-            Actor actor2 = new Actor('W', 3, 3, "Phil2.0", ConsoleColor.Cyan);
             Player player = new Player('@', 6, 6, 1, "Player", ConsoleColor.Red);
 
             scene.AddActor(actor);
-            scene.AddActor(actor2);
             scene.AddActor(player);
 
             _currentSceneIndex = AddScene(scene);
@@ -59,6 +57,10 @@ namespace MathForGames
         private void Update()
         {
             _scenes[_currentSceneIndex].Update();
+
+            // Keeps inputs from piling up, allowing one input per update.
+            while (Console.KeyAvailable)
+                Console.ReadKey(true);
         }
 
         /// <summary>
@@ -81,10 +83,8 @@ namespace MathForGames
                 {
                     // If the symbol at [x, y] is \0...
                     if(_buffer[x, y].Symbol == '\0')
-                    {
                         // ...set the symbol at that position to an empty space.
                         _buffer[x, y].Symbol = ' ';
-                    }
 
                     Console.ForegroundColor = _buffer[x, y].Color;
                     Console.Write(_buffer[x, y].Symbol);
@@ -115,9 +115,7 @@ namespace MathForGames
 
             // Copies all of the old values from the array and adds them to the new array.
             for(int i = 0; i < _scenes.Length; i++)
-            {
                 tempArray[i] = _scenes[i];
-            }
 
             // Sets the last index to be a new scene.
             tempArray[_scenes.Length] = scene;
@@ -137,10 +135,8 @@ namespace MathForGames
         {
             // If there is no key being pressed...
             if (!Console.KeyAvailable)
-            {
                 // ...return.
                 return 0;
-            }
 
             // Return the current key being pressed.
             return Console.ReadKey(true).Key;
@@ -157,10 +153,8 @@ namespace MathForGames
             // If the position is out of bounds...
             if(position.X < 0 || position.X >= _buffer.GetLength(0) || position.Y < 0 || 
                 position.Y >= _buffer.GetLength(1))
-            {
                 // ...it returns false.
                 return false;
-            }
 
             // Set the spot at the position given in the buffer to the given icon.
             _buffer[(int)position.X, (int)position.Y] = icon;
