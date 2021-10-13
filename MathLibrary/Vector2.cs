@@ -27,5 +27,21 @@ namespace MathLibrary
         {
             return new Vector2 { X = lhs.X / rhs, Y = lhs.Y / rhs };
         }
+
+        public static bool operator ==(Vector2 lhs, Vector2 rhs)
+        {
+            if (lhs.X == rhs.X && lhs.Y == rhs.Y)
+                return true;
+            else
+                return false;
+        }
+
+        public static bool operator !=(Vector2 lhs, Vector2 rhs)
+        {
+            if (lhs.X != rhs.X && lhs.Y != rhs.Y)
+                return true;
+            else
+                return false;
+        }
     }
 }
