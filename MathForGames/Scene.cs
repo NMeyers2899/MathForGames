@@ -40,6 +40,15 @@ namespace MathForGames
                     _actors[i].Start();
 
                 _actors[i].Update();
+
+                // Goes through the actors list to see if any actor has collided.
+                for (int j = 0; j < _actors.Length; j++)
+                {
+                    // If they have collided...
+                    if(_actors[i].Position == _actors[j].Position && j != i)
+                        // ...calls the OnCollision function for the actor.
+                        _actors[i].OnCollision(_actors[j]);
+                }
             }
         }
 

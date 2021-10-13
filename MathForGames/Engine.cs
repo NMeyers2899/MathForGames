@@ -37,15 +37,6 @@ namespace MathForGames
         /// </summary>
         private void Start()
         {
-            Scene scene = new Scene();
-            Actor actor = new Actor('N', 0, 0, "Phil", ConsoleColor.Blue);
-            Player player = new Player('@', 6, 6, 1, "Player", ConsoleColor.Red);
-
-            scene.AddActor(actor);
-            scene.AddActor(player);
-
-            _currentSceneIndex = AddScene(scene);
-
             _scenes[_currentSceneIndex].Start();
 
             Console.CursorVisible = false;
@@ -160,6 +151,14 @@ namespace MathForGames
             _buffer[(int)position.X, (int)position.Y] = icon;
 
             return true;
+        }
+
+        /// <summary>
+        /// Sets _applicationShouldClose to true.
+        /// </summary>
+        public static void CloseApplication()
+        {
+            _applicationShouldClose = true;
         }
     }
 }
