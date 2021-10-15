@@ -30,6 +30,16 @@ namespace MathLibrary
         }
 
         /// <summary>
+        /// Finds the inverse of the vector.
+        /// </summary>
+        /// <param name="vector"> The vector that will be inversed. </param>
+        /// <returns> The inverse of the vector. </returns>
+        public static Vector2 operator -(Vector2 vector)
+        {
+            return new Vector2 { X = -vector.X, Y = -vector.Y };
+        }
+
+        /// <summary>
         ///  Multiplies the Vector2 by the scalar.
         /// </summary>
         /// <param name="lhs"> The Vector2 on the left hand side. </param>
