@@ -129,23 +129,23 @@ namespace MathForGames
         }
 
         /// <summary>
-        /// Appends a new actor to the scenes array of UI elements.
+        /// Appends a new actor to the scenes array of actors.
         /// </summary>
-        /// <param name="UI"> The UI element being added to the scene. </param>
+        /// <param name="actor"> The actor being added to the scene. </param>
         public void AddUIElement(UIText UI)
         {
             // Creates a temporary array.
-            UIText[] tempArray = new UIText[_actors.Length + 1];
+            UIText[] tempArray = new UIText[_UIElements.Length + 1];
 
             // Copies all of the old values from the array and adds them to the new array.
             for (int i = 0; i < _UIElements.Length; i++)
                 tempArray[i] = _UIElements[i];
 
             // Sets the last index to be a new scene.
-            tempArray[_actors.Length] = UI;
+            tempArray[_UIElements.Length] = UI;
 
             // Set the old array to the new array.
-            _actors = tempArray;
+            _UIElements = tempArray;
         }
 
         /// <summary>
