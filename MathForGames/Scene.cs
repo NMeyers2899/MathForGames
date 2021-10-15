@@ -53,6 +53,19 @@ namespace MathForGames
             }
         }
 
+        public virtual void UpdateUI()
+        {
+            for (int i = 0; i < _UIElements.Length; i++)
+            {
+                if (!_UIElements[i].Started)
+                {
+                    _UIElements[i].Start();
+                }
+
+                _UIElements[i].Update();
+            }
+        }
+
         /// <summary>
         /// Calls the draw for every actor within the scene.
         /// </summary>
@@ -67,6 +80,14 @@ namespace MathForGames
                     _actors[i].Start();
 
                 _actors[i].Draw();
+            }
+        }
+
+        public virtual void DrawUI()
+        {
+            for (int i = 0; i < _UIElements.Length; i++)
+            {
+                _UIElements[i].Draw();
             }
         }
 

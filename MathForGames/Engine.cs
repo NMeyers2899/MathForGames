@@ -48,6 +48,7 @@ namespace MathForGames
         private void Update()
         {
             _scenes[_currentSceneIndex].Update();
+            _scenes[_currentSceneIndex].UpdateUI();
 
             // Keeps inputs from piling up, allowing one input per update.
             while (Console.KeyAvailable)
@@ -66,9 +67,10 @@ namespace MathForGames
             Console.SetCursorPosition(0, 0);
 
             _scenes[_currentSceneIndex].Draw();
+            _scenes[_currentSceneIndex].DrawUI();
 
             // For each position in buffer, print out the symbol in its chosen color.
-            for(int y = 0; y < _buffer.GetLength(1); y++)
+            for (int y = 0; y < _buffer.GetLength(1); y++)
             {
                 for(int x = 0; x < _buffer.GetLength(0); x++)
                 {
