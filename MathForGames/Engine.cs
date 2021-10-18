@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using MathLibrary;
+using Raylib_cs;
 
 namespace MathForGames
 {
@@ -22,11 +23,10 @@ namespace MathForGames
             Start();
 
             // Loop until the application is told to close.
-            while (!_applicationShouldClose)
+            while (!(Raylib.WindowShouldClose() || _applicationShouldClose))
             {
                 Update();
                 Draw();
-                Thread.Sleep(50);
             }
 
             End();
@@ -37,6 +37,13 @@ namespace MathForGames
         /// </summary>
         private void Start()
         {
+            // Creates a window using Raylib.
+            Raylib.InitWindow(800, 450, "Math For Games");
+
+            Scene openingScene = new Scene();
+
+            AddScene(openingScene);
+
             _scenes[_currentSceneIndex].Start();
 
             Console.CursorVisible = false;
@@ -94,6 +101,7 @@ namespace MathForGames
         private void End()
         {
             _scenes[_currentSceneIndex].End();
+            Raylib.CloseWindow();
         }
 
         /// <summary>
