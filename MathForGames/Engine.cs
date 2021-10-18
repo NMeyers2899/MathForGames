@@ -61,7 +61,7 @@ namespace MathForGames
         private void Draw()
         {
             // Sets the buffer to the current size of the console. Also clears the screen from the last draw.
-            _buffer = new Icon[Console.WindowWidth, Console.WindowHeight - 1];
+            _buffer = new Icon[Console.WindowWidth - 1, Console.WindowHeight - 1];
 
             // Resets the cursor to the top so the screen is drawn over.
             Console.SetCursorPosition(0, 0);
