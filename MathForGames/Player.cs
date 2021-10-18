@@ -29,24 +29,18 @@ namespace MathForGames
             _speed = speed;
         }
 
-        public override void Update()
+        public override void Update(float deltaTime)
         {
-            Vector2 moveDirection = new Vector2();
+            // Get the player input direction.
+            int xDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_A)) 
+                + Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_D));
+            int yDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_W))
+                + Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_S));
 
-            // Gets the next key push.
-            ConsoleKey keyPress = Engine.GetNextKey();
+            // Create a vector that stores the move input.
+            Vector2 moveDirection = new Vector2(xDirection, yDirection);
 
-            // Determines which direction the player character moves in.
-            if (keyPress == ConsoleKey.A || keyPress == ConsoleKey.LeftArrow)
-                moveDirection = new Vector2 { X = -1 };
-            else if (keyPress == ConsoleKey.D || keyPress == ConsoleKey.RightArrow)
-                moveDirection = new Vector2 { X = 1 };
-            else if (keyPress == ConsoleKey.W || keyPress == ConsoleKey.UpArrow)
-                moveDirection = new Vector2 { Y = -1 };
-            else if (keyPress == ConsoleKey.S || keyPress == ConsoleKey.DownArrow)
-                moveDirection = new Vector2 { Y = 1 };
-
-            Velocity = moveDirection * Speed;
+            Velocity = moveDirection * Speed * deltaTime;
 
             Position += Velocity;
         }

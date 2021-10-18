@@ -7,6 +7,13 @@ namespace MathLibrary
         public float X;
         public float Y;
 
+        public Vector2(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+
+
         /// <summary>
         /// Adds the X of the lhs and rhs together and the Y of the lhs and rhs together.
         /// </summary>

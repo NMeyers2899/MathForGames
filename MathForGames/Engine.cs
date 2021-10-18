@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using MathLibrary;
 using Raylib_cs;
 
@@ -12,6 +13,7 @@ namespace MathForGames
         private static bool _applicationShouldClose = false;
         private static int _currentSceneIndex;
         private Scene[] _scenes = new Scene[0];
+        private Stopwatch _stopWatch = new Stopwatch();
 
         /// <summary>
         /// Called to begin the application.
@@ -21,11 +23,26 @@ namespace MathForGames
             // Initalizes important variables for the application.
             Start();
 
+            float currentTime = 0;
+            float lastTime = 0;
+            float deltaTime = 0;
+
             // Loop until the application is told to close.
             while (!(Raylib.WindowShouldClose() || _applicationShouldClose))
             {
-                Update();
+                // Get how much time has passed since the application started.
+                currentTime = _stopWatch.ElapsedMilliseconds / 1000.0f;
+
+                // Set delta time to be the difference in time from the last time recorded.
+                deltaTime = currentTime - lastTime;
+
+                // Update the application.
+                Update(deltaTime);
+                // Draw all items.
                 Draw();
+
+                // Set the last time recorded to be the current time.
+                lastTime = currentTime;
             }
 
             End();
@@ -36,8 +53,11 @@ namespace MathForGames
         /// </summary>
         private void Start()
         {
+            _stopWatch.Start();
+
             // Creates a window using Raylib.
             Raylib.InitWindow(800, 450, "Math For Games");
+            Raylib.SetTargetFPS(30);
 
             Scene openingScene = new Scene();
             Player player = new Player('@', 10, 10, 1, Color.RED, "Player");
@@ -51,10 +71,10 @@ namespace MathForGames
         /// <summary>
         /// Called each time the game loops.
         /// </summary>
-        private void Update()
+        private void Update(float deltaTime)
         {
-            _scenes[_currentSceneIndex].Update();
-            _scenes[_currentSceneIndex].UpdateUI();
+            _scenes[_currentSceneIndex].Update(deltaTime);
+            _scenes[_currentSceneIndex].UpdateUI(deltaTime);
 
             // Keeps inputs from piling up, allowing one input per update.
             while (Console.KeyAvailable)

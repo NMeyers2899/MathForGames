@@ -53,7 +53,7 @@ namespace MathForGames
             _started = true;
         }
 
-        public virtual void Update()
+        public virtual void Update(float deltaTime)
         {
             
         }
