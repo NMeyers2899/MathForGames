@@ -57,13 +57,15 @@ namespace MathForGames
 
             // Creates a window using Raylib.
             Raylib.InitWindow(800, 450, "Math For Games");
-            Raylib.SetTargetFPS(30);
+            Raylib.SetTargetFPS(60);
 
             Scene openingScene = new Scene();
-            Player player = new Player('@', 10, 10, 1, Color.RED, "Player");
+            Player player = new Player('@', 10, 10, 150, Color.RED, "Player");
+            Actor actor = new Actor('E', 5, 5, Color.BLUE, "Actor");
 
             AddScene(openingScene);
             openingScene.AddActor(player);
+            openingScene.AddActor(actor);
 
             _scenes[_currentSceneIndex].Start();
         }

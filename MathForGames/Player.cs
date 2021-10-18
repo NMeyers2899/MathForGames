@@ -31,6 +31,8 @@ namespace MathForGames
 
         public override void Update(float deltaTime)
         {
+            base.Update(deltaTime);
+
             // Get the player input direction.
             int xDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_A)) 
                 + Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_D));
@@ -40,14 +42,14 @@ namespace MathForGames
             // Create a vector that stores the move input.
             Vector2 moveDirection = new Vector2(xDirection, yDirection);
 
-            Velocity = moveDirection * Speed * deltaTime;
+            Velocity = moveDirection.Normalized * Speed * deltaTime;
 
             Position += Velocity;
         }
 
         public override void OnCollision(Actor actor)
         {
-            
+            Console.WriteLine("Collision Occured");
         }
     }
 }
