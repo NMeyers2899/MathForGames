@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
+using Raylib_cs;
 
 namespace MathForGames
 {
@@ -48,8 +49,8 @@ namespace MathForGames
         /// <param name="width"> The width of the text box. </param>
         /// <param name="height"> The height of the text box. </param>
         /// <param name="text"> The text being displayed. </param>
-        public UIText(float x, float y, string name, ConsoleColor color, int width, int height, string text = "")
-            : base('\0', x, y, name, color)
+        public UIText(float x, float y, string name, Color color, int width, int height, string text = "")
+            : base('\0', x, y, color, name)
         {
             _text = text;
             _width = width;
@@ -83,9 +84,6 @@ namespace MathForGames
                     cursorPosY++;
                     continue;
                 }
-
-                // Add the current character to the buffer.
-                Engine.TryRender(currentLetter, new Vector2 { X = cursorPosX, Y = cursorPosY });
 
                 // Increment the cursor position so the letters are set side by side.
                 cursorPosX++;
