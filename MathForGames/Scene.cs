@@ -10,7 +10,7 @@ namespace MathForGames
         ///  Array that contains all actors in the scene.
         /// </summary>
         private Actor[] _actors;
-        private UIText[] _UIElements;
+        private Actor[] _UIElements;
 
         public Scene()
         {
@@ -135,7 +135,7 @@ namespace MathForGames
         public void AddUIElement(UIText UI)
         {
             // Creates a temporary array.
-            UIText[] tempArray = new UIText[_UIElements.Length + 1];
+            Actor[] tempArray = new Actor[_UIElements.Length + 1];
 
             // Copies all of the old values from the array and adds them to the new array.
             for (int i = 0; i < _UIElements.Length; i++)
