@@ -9,7 +9,9 @@ namespace MathForGames
     class Player : Actor
     {
         private float _speed;
-        private Vector2 _velocity;
+        private Vector3 _velocity;
+        private int _health = 2;
+        private float _originalSpeed;
 
         public float Speed
         {
@@ -17,39 +19,57 @@ namespace MathForGames
             set { _speed = value; }
         }
 
-        public Vector2 Velocity
+        public Vector3 Velocity
         {
             get { return _velocity; }
             set { _velocity = value; }
         }
 
-        public Player(char icon, float x, float y, float speed, Color color, string name = "Player") 
-            : base(icon, x, y, color, name)
+        public int Healths
         {
-            _speed = speed;
+            get { return _health; }
         }
 
-        public override void Update(float deltaTime)
+        public Player(float x, float y, float z, float speed, string name = "Player",
+            Shape shape = Shape.CUBE) : base(x, y, z, name, shape)
         {
-            base.Update(deltaTime);
+            _speed = speed;
+            _originalSpeed = _speed;
+        }
+
+        public override void Update(float deltaTime, Scene currentScene)
+        {
+            int yDirection = 0;
 
             // Get the player input direction.
-            int xDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_A)) 
+            int xDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_A))
                 + Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_D));
-            int yDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_W))
+            int zDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_W))
                 + Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_S));
 
             // Create a vector that stores the move input.
-            Vector2 moveDirection = new Vector2(xDirection, yDirection);
+            Vector3 moveDirection = new Vector3(xDirection, yDirection, zDirection);
 
             Velocity = moveDirection.Normalized * Speed * deltaTime;
 
-            Position += Velocity;
+            if (Velocity.Magnitude > 0)
+                Forward = Velocity.Normalized;
+
+            LocalPosition += Velocity;
+            base.Update(deltaTime, currentScene);
         }
 
-        public override void OnCollision(Actor actor)
+        public override void Draw()
         {
-            Console.WriteLine("Collision Occured");
+            base.Draw();
+
+            if (Collider != null)
+                Collider.Draw();
+        }
+
+        public override void OnCollision(Actor actor, Scene currentScene)
+        {
+            
         }
     }
 }

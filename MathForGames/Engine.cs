@@ -14,6 +14,7 @@ namespace MathForGames
         private static int _currentSceneIndex;
         private Scene[] _scenes = new Scene[0];
         private Stopwatch _stopWatch = new Stopwatch();
+        private Camera3D _camera = new Camera3D();
 
         /// <summary>
         /// Called to begin the application.
@@ -48,6 +49,20 @@ namespace MathForGames
             End();
         }
 
+        private void InitializeCamera()
+        {
+            // Camera position.
+            _camera.position = new System.Numerics.Vector3(0, 10, 10);
+            // Point the camera is focused on.
+            _camera.target = new System.Numerics.Vector3(0, 0, 0);
+            // Camera up vector(rotation towards target).
+            _camera.up = new System.Numerics.Vector3(0, 1, 0);
+            // Camera's field of view Y.
+            _camera.fovy = 70;
+            // Camera mode type.
+            _camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
+        }
+
         /// <summary>
         /// Initalizes important variables for the application.
         /// </summary>
@@ -58,14 +73,14 @@ namespace MathForGames
             // Creates a window using Raylib.
             Raylib.InitWindow(800, 450, "Math For Games");
             Raylib.SetTargetFPS(60);
+            InitializeCamera();
 
-            Scene openingScene = new Scene();
-            Player player = new Player('@', 10, 10, 150, Color.RED, "Player");
-            Actor actor = new Actor('E', 5, 5, Color.BLUE, "Actor");
+            Scene levelOne = new Scene();
+            Player playerCube = new Player(0, 2, 0, 15, "Cube");
+            playerCube.SetColor(new Vector4(255, 20, 20, 255));
 
-            AddScene(openingScene);
-            openingScene.AddActor(player);
-            openingScene.AddActor(actor);
+            levelOne.AddActor(playerCube);
+            AddScene(levelOne);
 
             _scenes[_currentSceneIndex].Start();
         }
@@ -75,8 +90,18 @@ namespace MathForGames
         /// </summary>
         private void Update(float deltaTime)
         {
-            _scenes[_currentSceneIndex].Update(deltaTime);
-            _scenes[_currentSceneIndex].UpdateUI(deltaTime);
+            Actor playerCharacter = _scenes[0].Actors[0];
+
+            if (playerCharacter is Player)
+            {
+                _camera.position = new System.Numerics.Vector3(playerCharacter.WorldPosition.X,
+                playerCharacter.WorldPosition.Y + 15, playerCharacter.WorldPosition.Z + 15);
+                _camera.target = new System.Numerics.Vector3(playerCharacter.WorldPosition.X,
+                    playerCharacter.WorldPosition.Y, playerCharacter.WorldPosition.Z);
+            }
+
+            _scenes[_currentSceneIndex].Update(deltaTime, _scenes[_currentSceneIndex]);
+            _scenes[_currentSceneIndex].UpdateUI(deltaTime, _scenes[_currentSceneIndex]);
 
             // Keeps inputs from piling up, allowing one input per update.
             while (Console.KeyAvailable)
@@ -89,11 +114,15 @@ namespace MathForGames
         private void Draw()
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.ORANGE);
+            Raylib.BeginMode3D(_camera);
+
+            Raylib.ClearBackground(Color.WHITE);
+            Raylib.DrawGrid(50, 1);
 
             _scenes[_currentSceneIndex].Draw();
             _scenes[_currentSceneIndex].DrawUI();
 
+            Raylib.EndMode3D();
             Raylib.EndDrawing();
         }
 
@@ -117,7 +146,7 @@ namespace MathForGames
             Scene[] tempArray = new Scene[_scenes.Length + 1];
 
             // Copies all of the old values from the array and adds them to the new array.
-            for(int i = 0; i < _scenes.Length; i++)
+            for (int i = 0; i < _scenes.Length; i++)
                 tempArray[i] = _scenes[i];
 
             // Sets the last index to be a new scene.
@@ -151,6 +180,11 @@ namespace MathForGames
         public static void CloseApplication()
         {
             _applicationShouldClose = true;
+        }
+
+        public static void MoveToNextLevel()
+        {
+            _currentSceneIndex++;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Raylib_cs;
 
 namespace MathForGames
 {
@@ -11,6 +12,11 @@ namespace MathForGames
         /// </summary>
         private Actor[] _actors;
         private Actor[] _UIElements;
+
+        public Actor[] Actors
+        {
+            get { return _actors; }
+        }
 
         public Scene()
         {
@@ -23,38 +29,39 @@ namespace MathForGames
         /// </summary>
         public virtual void Start()
         {
-            // Loops through the _actors array and gets all actors in it to Start.
-            for(int i = 0; i < _actors.Length; i++)
-                _actors[i].Start();
+
         }
 
         /// <summary>
         /// Calls the update for every actor within the scene.
         /// </summary>
-        public virtual void Update(float deltaTime)
+        public virtual void Update(float deltaTime, Scene currentScene)
         {
             // Loops through the array to get each character to Update.
-            for(int i = 0; i < _actors.Length; i++)
+            for (int i = 0; i < _actors.Length; i++)
             {
                 // If the actor's start function hasn't been called yet...
                 if (!_actors[i].Started)
                     // ...the current actor calls its Start function.
                     _actors[i].Start();
 
-                _actors[i].Update(deltaTime);
+                _actors[i].Update(deltaTime, currentScene);
 
                 // Goes through the actors list to see if any actor has collided.
                 for (int j = 0; j < _actors.Length; j++)
                 {
-                    // If they have collided...
-                    if(_actors[i].Position == _actors[j].Position && j != i)
-                        // ...calls the OnCollision function for the actor.
-                        _actors[i].OnCollision(_actors[j]);
+                    if (i < _actors.Length)
+                    {
+                        // If they have collided...
+                        if (_actors[i].CheckForCollision(_actors[j]) && j != i)
+                            // ...calls the OnCollision function for the actor.
+                            _actors[i].OnCollision(_actors[j], this);
+                    }
                 }
             }
         }
 
-        public virtual void UpdateUI(float deltaTime)
+        public virtual void UpdateUI(float deltaTime, Scene currentScene)
         {
             for (int i = 0; i < _UIElements.Length; i++)
             {
@@ -63,7 +70,7 @@ namespace MathForGames
                     _UIElements[i].Start();
                 }
 
-                _UIElements[i].Update(deltaTime);
+                _UIElements[i].Update(deltaTime, currentScene);
             }
         }
 
@@ -127,6 +134,12 @@ namespace MathForGames
 
             // Set the old array to the new array.
             _actors = tempArray;
+
+            if (actor.Children != null)
+            {
+                foreach (Actor child in actor.Children)
+                    AddActor(child);
+            }
         }
 
         /// <summary>
@@ -154,7 +167,7 @@ namespace MathForGames
         /// </summary>
         /// <param name="actor"> The actor being removed. </param>
         /// <returns> If the actor could be removed. </returns>
-        public bool TryRemoveActor(Actor actor)
+        public bool RemoveActor(Actor actor)
         {
             // Creates a variable that helps keep track of when an actor is removed from the _actors array.
             bool actorRemoved = false;
@@ -168,7 +181,7 @@ namespace MathForGames
             for (int i = 0; i < _actors.Length; i++)
             {
                 // If the current actor in _actors is not equal to actor...
-                if(_actors[i] != actor)
+                if (_actors[i] != actor)
                 {
                     // ...set the tempArray at j to the actor at i in _actors and increment j.
                     tempArray[j] = _actors[i];
